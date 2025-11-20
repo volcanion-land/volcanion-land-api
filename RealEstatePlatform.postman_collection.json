@@ -1,0 +1,1590 @@
+{
+	"info": {
+		"name": "Real Estate Platform API",
+		"description": "Complete API collection for Real Estate Platform - Clean Architecture",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"version": "1.0.0"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:7001",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refreshToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "propertyId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "listingId",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.userId) {",
+									"        pm.collectionVariables.set('userId', jsonData.data.userId);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"Password123!\",\n  \"fullName\": \"Nguyen Van A\",\n  \"phoneNumber\": \"0912345678\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data) {",
+									"        pm.collectionVariables.set('token', jsonData.data.token);",
+									"        pm.collectionVariables.set('refreshToken', jsonData.data.refreshToken);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"Password123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data) {",
+									"        pm.collectionVariables.set('token', jsonData.data.token);",
+									"        pm.collectionVariables.set('refreshToken', jsonData.data.refreshToken);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\": \"{{token}}\",\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/refresh-token",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "refresh-token"]
+						}
+					}
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/logout",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "logout"]
+						}
+					}
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/forgot-password",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "forgot-password"]
+						}
+					}
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"token\": \"reset-token-here\",\n  \"newPassword\": \"NewPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/reset-password",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "reset-password"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Properties",
+			"item": [
+				{
+					"name": "Get All Properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/properties?page=1&pageSize=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "properties"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Property by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/properties/{{propertyId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "properties", "{{propertyId}}"]
+						}
+					}
+				},
+				{
+					"name": "Create Property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.id) {",
+									"        pm.collectionVariables.set('propertyId', jsonData.data.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Căn hộ 2PN view biển\",\n  \"propertyType\": \"Apartment\",\n  \"address\": \"123 Đường ABC, Phường XYZ\",\n  \"wardId\": \"00000000-0000-0000-0000-000000000000\",\n  \"districtId\": \"00000000-0000-0000-0000-000000000000\",\n  \"area\": 85.5,\n  \"bedrooms\": 2,\n  \"bathrooms\": 2,\n  \"floors\": 1,\n  \"description\": \"Căn hộ đẹp, view thoáng mát\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/properties",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "properties"]
+						}
+					}
+				},
+				{
+					"name": "Update Property",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Căn hộ 2PN view biển - Cập nhật\",\n  \"propertyType\": \"Apartment\",\n  \"address\": \"123 Đường ABC, Phường XYZ\",\n  \"area\": 90.0,\n  \"bedrooms\": 2,\n  \"bathrooms\": 2\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/properties/{{propertyId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "properties", "{{propertyId}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Property",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/properties/{{propertyId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "properties", "{{propertyId}}"]
+						}
+					}
+				},
+				{
+					"name": "Search Properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/properties/search?keyword=căn hộ&propertyType=Apartment&minPrice=1000000000&maxPrice=5000000000&page=1&pageSize=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "properties", "search"],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "căn hộ"
+								},
+								{
+									"key": "propertyType",
+									"value": "Apartment"
+								},
+								{
+									"key": "minPrice",
+									"value": "1000000000"
+								},
+								{
+									"key": "maxPrice",
+									"value": "5000000000"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Nearby Properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/properties/nearby?latitude=10.762622&longitude=106.660172&radiusKm=5",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "properties", "nearby"],
+							"query": [
+								{
+									"key": "latitude",
+									"value": "10.762622"
+								},
+								{
+									"key": "longitude",
+									"value": "106.660172"
+								},
+								{
+									"key": "radiusKm",
+									"value": "5"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Listings",
+			"item": [
+				{
+					"name": "Get All Listings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/listings?page=1&pageSize=10&status=Active",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "listings"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "status",
+									"value": "Active"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Listing by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/listings/{{listingId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "listings", "{{listingId}}"]
+						}
+					}
+				},
+				{
+					"name": "Create Listing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.id) {",
+									"        pm.collectionVariables.set('listingId', jsonData.data.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"propertyId\": \"{{propertyId}}\",\n  \"title\": \"Căn hộ 2PN giá tốt\",\n  \"description\": \"Mô tả chi tiết về căn hộ\",\n  \"price\": 3500000000,\n  \"listingType\": \"Sell\",\n  \"packageId\": null\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/listings",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "listings"]
+						}
+					}
+				},
+				{
+					"name": "Update Listing",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Căn hộ 2PN giá tốt - Cập nhật\",\n  \"description\": \"Mô tả mới\",\n  \"price\": 3200000000,\n  \"listingType\": \"Sell\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/listings/{{listingId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "listings", "{{listingId}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Listing",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/listings/{{listingId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "listings", "{{listingId}}"]
+						}
+					}
+				},
+				{
+					"name": "Get My Listings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/listings/my-listings",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "listings", "my-listings"]
+						}
+					}
+				},
+				{
+					"name": "Increment View Count",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/listings/{{listingId}}/view",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "listings", "{{listingId}}", "view"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get Reviews by Property",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/reviews/property/{{propertyId}}?page=1&pageSize=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "reviews", "property", "{{propertyId}}"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Reviews by User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/reviews/user/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "reviews", "user", "{{userId}}"]
+						}
+					}
+				},
+				{
+					"name": "Create Review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"propertyId\": \"{{propertyId}}\",\n  \"rating\": 5,\n  \"comment\": \"Căn hộ rất đẹp, chủ nhà thân thiện\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/reviews",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "reviews"]
+						}
+					}
+				},
+				{
+					"name": "Update Review",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rating\": 4,\n  \"comment\": \"Cập nhật đánh giá\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/reviews/{reviewId}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "reviews", "{reviewId}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/reviews/{reviewId}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "reviews", "{reviewId}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Send Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"receiverId\": \"{{userId}}\",\n  \"content\": \"Xin chào, tôi quan tâm đến BĐS của bạn\",\n  \"listingId\": \"{{listingId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/send",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "send"]
+						}
+					}
+				},
+				{
+					"name": "Get Conversations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/conversations",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "conversations"]
+						}
+					}
+				},
+				{
+					"name": "Get Messages in Conversation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/conversation/{conversationId}?page=1&pageSize=50",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "conversation", "{conversationId}"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "50"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Mark as Read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/{messageId}/read",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "{messageId}", "read"]
+						}
+					}
+				},
+				{
+					"name": "Get Unread Count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/messages/unread-count",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "messages", "unread-count"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "User Profile",
+			"item": [
+				{
+					"name": "Get My Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "profile"]
+						}
+					}
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fullName\": \"Nguyen Van A Updated\",\n  \"phoneNumber\": \"0987654321\",\n  \"bio\": \"Môi giới BĐS chuyên nghiệp\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "profile"]
+						}
+					}
+				},
+				{
+					"name": "Upload Avatar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/profile/avatar",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "profile", "avatar"]
+						}
+					}
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currentPassword\": \"Password123!\",\n  \"newPassword\": \"NewPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/profile/change-password",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "profile", "change-password"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Favorites",
+			"item": [
+				{
+					"name": "Get My Favorites",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/favorites?page=1&pageSize=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "favorites"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Add to Favorites",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/favorites/{{listingId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "favorites", "{{listingId}}"]
+						}
+					}
+				},
+				{
+					"name": "Remove from Favorites",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/favorites/{{listingId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "favorites", "{{listingId}}"]
+						}
+					}
+				},
+				{
+					"name": "Check if Favorite",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/favorites/{{listingId}}/check",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "favorites", "{{listingId}}", "check"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin - Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/users?page=1&pageSize=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "users"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "users", "{{userId}}"]
+						}
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fullName\": \"Updated Name\",\n  \"email\": \"updated@example.com\",\n  \"phoneNumber\": \"0999999999\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "users", "{{userId}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "users", "{{userId}}"]
+						}
+					}
+				},
+				{
+					"name": "Assign Role",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{userId}}\",\n  \"role\": \"Admin\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/users/assign-role",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "users", "assign-role"]
+						}
+					}
+				},
+				{
+					"name": "Ban User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Vi phạm quy định\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/users/{{userId}}/ban",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "users", "{{userId}}", "ban"]
+						}
+					}
+				},
+				{
+					"name": "Unban User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/users/{{userId}}/unban",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "users", "{{userId}}", "unban"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin - Listings",
+			"item": [
+				{
+					"name": "Get All Listings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/listings?page=1&pageSize=20&status=Pending",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "listings"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": "Pending"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Approve Listing",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/listings/{{listingId}}/approve",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "listings", "{{listingId}}", "approve"]
+						}
+					}
+				},
+				{
+					"name": "Reject Listing",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Thông tin không chính xác\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/listings/{{listingId}}/reject",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "listings", "{{listingId}}", "reject"]
+						}
+					}
+				},
+				{
+					"name": "Feature Listing",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/listings/{{listingId}}/feature",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "listings", "{{listingId}}", "feature"]
+						}
+					}
+				},
+				{
+					"name": "Unfeature Listing",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/listings/{{listingId}}/unfeature",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "listings", "{{listingId}}", "unfeature"]
+						}
+					}
+				},
+				{
+					"name": "Delete Listing",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/listings/{{listingId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "listings", "{{listingId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin - Dashboard",
+			"item": [
+				{
+					"name": "Get Dashboard Stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/dashboard/stats",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "dashboard", "stats"]
+						}
+					}
+				},
+				{
+					"name": "Get Revenue Stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/dashboard/revenue?startDate=2024-01-01&endDate=2024-12-31",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "dashboard", "revenue"],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-12-31"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User Growth",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/dashboard/user-growth?days=30",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "dashboard", "user-growth"],
+							"query": [
+								{
+									"key": "days",
+									"value": "30"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Popular Listings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/dashboard/popular-listings?top=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "dashboard", "popular-listings"],
+							"query": [
+								{
+									"key": "top",
+									"value": "10"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin - Reviews",
+			"item": [
+				{
+					"name": "Get All Reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/reviews?page=1&pageSize=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "reviews"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Flagged Reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/reviews/flagged",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "reviews", "flagged"]
+						}
+					}
+				},
+				{
+					"name": "Approve Review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/reviews/{reviewId}/approve",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "reviews", "{reviewId}", "approve"]
+						}
+					}
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/reviews/{reviewId}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "reviews", "{reviewId}"]
+						}
+					}
+				},
+				{
+					"name": "Flag Review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Nội dung không phù hợp\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/reviews/{reviewId}/flag",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "reviews", "{reviewId}", "flag"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin - System Config",
+			"item": [
+				{
+					"name": "Get All Configs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/config",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "config"]
+						}
+					}
+				},
+				{
+					"name": "Get Config by Key",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/config/{key}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "config", "{key}"]
+						}
+					}
+				},
+				{
+					"name": "Create Config",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"key\": \"MAX_UPLOAD_SIZE\",\n  \"value\": \"10485760\",\n  \"description\": \"Maximum file upload size in bytes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/config",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "config"]
+						}
+					}
+				},
+				{
+					"name": "Update Config",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\": \"20971520\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/config/{key}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "config", "{key}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Config",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/config/{key}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "config", "{key}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin - Banners",
+			"item": [
+				{
+					"name": "Get All Banners",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/banners",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "banners"]
+						}
+					}
+				},
+				{
+					"name": "Get Banner by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/banners/{bannerId}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "banners", "{bannerId}"]
+						}
+					}
+				},
+				{
+					"name": "Create Banner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Khuyến mãi mùa hè\",\n  \"imageUrl\": \"https://example.com/banner.jpg\",\n  \"linkUrl\": \"https://example.com/promotion\",\n  \"displayOrder\": 1,\n  \"isActive\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/banners",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "banners"]
+						}
+					}
+				},
+				{
+					"name": "Update Banner",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Khuyến mãi mùa hè - Updated\",\n  \"isActive\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/banners/{bannerId}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "banners", "{bannerId}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Banner",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/banners/{bannerId}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "banners", "{bannerId}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin - FAQs",
+			"item": [
+				{
+					"name": "Get All FAQs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/faqs",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "faqs"]
+						}
+					}
+				},
+				{
+					"name": "Get FAQ by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/faqs/{faqId}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "faqs", "{faqId}"]
+						}
+					}
+				},
+				{
+					"name": "Create FAQ",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"question\": \"Làm thế nào để đăng tin?\",\n  \"answer\": \"Bạn cần đăng nhập và click vào nút Đăng tin...\",\n  \"category\": \"Posting\",\n  \"displayOrder\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/faqs",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "faqs"]
+						}
+					}
+				},
+				{
+					"name": "Update FAQ",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"question\": \"Làm thế nào để đăng tin? - Updated\",\n  \"answer\": \"Câu trả lời mới...\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/faqs/{faqId}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "faqs", "{faqId}"]
+						}
+					}
+				},
+				{
+					"name": "Delete FAQ",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/faqs/{faqId}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "faqs", "{faqId}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin - Contact",
+			"item": [
+				{
+					"name": "Get All Contact Requests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/contact?page=1&pageSize=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "contact"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Contact by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/contact/{contactId}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "contact", "{contactId}"]
+						}
+					}
+				},
+				{
+					"name": "Reply to Contact",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"replyMessage\": \"Cảm ơn bạn đã liên hệ. Chúng tôi sẽ...\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/contact/{contactId}/reply",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "contact", "{contactId}", "reply"]
+						}
+					}
+				},
+				{
+					"name": "Mark as Resolved",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/admin/contact/{contactId}/resolve",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "admin", "contact", "{contactId}", "resolve"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Health & Monitoring",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["health"]
+						}
+					}
+				},
+				{
+					"name": "Metrics (Prometheus)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/metrics",
+							"host": ["{{baseUrl}}"],
+							"path": ["metrics"]
+						}
+					}
+				}
+			]
+		}
+	]
+}

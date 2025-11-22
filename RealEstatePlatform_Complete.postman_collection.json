@@ -1,0 +1,1823 @@
+{
+	"info": {
+		"_postman_id": "volcano-land-api-2025",
+		"name": "Real Estate Platform API - Complete",
+		"description": "Complete API collection for Real Estate Platform with all endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "real-estate-platform"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "listing_id",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.token) {",
+									"        pm.collectionVariables.set('access_token', jsonData.data.token);",
+									"    }",
+									"    if (jsonData.data && jsonData.data.refreshToken) {",
+									"        pm.collectionVariables.set('refresh_token', jsonData.data.refreshToken);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"Password123!\",\n  \"fullName\": \"John Doe\",\n  \"phoneNumber\": \"+84123456789\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Auth", "register"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.token) {",
+									"        pm.collectionVariables.set('access_token', jsonData.data.token);",
+									"    }",
+									"    if (jsonData.data && jsonData.data.refreshToken) {",
+									"        pm.collectionVariables.set('refresh_token', jsonData.data.refreshToken);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"Password123!\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Auth", "login"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.token) {",
+									"        pm.collectionVariables.set('access_token', jsonData.data.token);",
+									"    }",
+									"    if (jsonData.data && jsonData.data.refreshToken) {",
+									"        pm.collectionVariables.set('refresh_token', jsonData.data.refreshToken);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"{{refresh_token}}\""
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Auth/refresh-token",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Auth", "refresh-token"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Auth/logout",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Auth", "logout"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Listings",
+			"item": [
+				{
+					"name": "Search Listings",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Listings/search?pageNumber=1&pageSize=20&propertyType=House&minPrice=0&maxPrice=1000000",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Listings", "search"],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								},
+								{
+									"key": "propertyType",
+									"value": "House"
+								},
+								{
+									"key": "minPrice",
+									"value": "0"
+								},
+								{
+									"key": "maxPrice",
+									"value": "1000000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Listing Detail",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Listings/{{listing_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Listings", "{{listing_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Listing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data) {",
+									"        pm.collectionVariables.set('listing_id', jsonData.data);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Beautiful House for Sale\",\n  \"description\": \"A beautiful house in a great location\",\n  \"price\": 500000,\n  \"currency\": \"VND\",\n  \"listingType\": \"Sale\",\n  \"propertyType\": \"House\",\n  \"address\": \"123 Main St\",\n  \"wardId\": \"00000000-0000-0000-0000-000000000000\",\n  \"area\": 150,\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floors\": 2,\n  \"images\": [\n    \"https://example.com/image1.jpg\"\n  ],\n  \"amenities\": [\n    \"Parking\",\n    \"Garden\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Listings",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Listings"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Listing",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated House for Sale\",\n  \"description\": \"An updated beautiful house in a great location\",\n  \"price\": 550000,\n  \"currency\": \"VND\",\n  \"listingType\": \"Sale\",\n  \"propertyType\": \"House\",\n  \"address\": \"123 Main St\",\n  \"wardId\": \"00000000-0000-0000-0000-000000000000\",\n  \"area\": 150,\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floors\": 2,\n  \"images\": [\n    \"https://example.com/image1.jpg\"\n  ],\n  \"amenities\": [\n    \"Parking\",\n    \"Garden\",\n    \"Pool\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Listings/{{listing_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Listings", "{{listing_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Listing Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"Active\""
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Listings/{{listing_id}}/status",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Listings", "{{listing_id}}", "status"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Listing",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Listings/{{listing_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Listings", "{{listing_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get My Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Users/profile",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Users", "profile"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Users/{{user_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Users", "{{user_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fullName\": \"John Doe Updated\",\n  \"phoneNumber\": \"+84987654321\",\n  \"bio\": \"Real estate enthusiast\",\n  \"avatarUrl\": \"https://example.com/avatar.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/Users/profile",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Users", "profile"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Users/{{user_id}}/follow",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Users", "{{user_id}}", "follow"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unfollow User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Users/{{user_id}}/follow",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Users", "{{user_id}}", "follow"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorites",
+			"item": [
+				{
+					"name": "Get My Favorites",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Favorites?pageNumber=1&pageSize=20",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Favorites"],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add to Favorites",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Favorites/{{listing_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Favorites", "{{listing_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from Favorites",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Favorites/{{listing_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Favorites", "{{listing_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check if Favorited",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Favorites/{{listing_id}}/check",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Favorites", "{{listing_id}}", "check"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Favorite Count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Favorites/count",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Favorites", "count"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Get Conversations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Messages/conversations?pageNumber=1&pageSize=20",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Messages", "conversations"],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Messages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Messages/{{conversation_id}}/messages?pageNumber=1&pageSize=50",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Messages", "{{conversation_id}}", "messages"],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"receiverId\": \"user-id-here\",\n  \"content\": \"Hello, I'm interested in your property\",\n  \"relatedListingId\": \"{{listing_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Messages",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Messages"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark as Read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Messages/{{conversation_id}}/read",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Messages", "{{conversation_id}}", "read"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Conversation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Messages/{{conversation_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Messages", "{{conversation_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get Listing Reviews",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Reviews/listing/{{listing_id}}?pageNumber=1&pageSize=20",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Reviews", "listing", "{{listing_id}}"],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Reviews",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Reviews/user/{{user_id}}?pageNumber=1&pageSize=20",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Reviews", "user", "{{user_id}}"],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Listing Rating",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Reviews/listing/{{listing_id}}/rating",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Reviews", "listing", "{{listing_id}}", "rating"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Rating",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Reviews/user/{{user_id}}/rating",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Reviews", "user", "{{user_id}}", "rating"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"listingId\": \"{{listing_id}}\",\n  \"rating\": 5,\n  \"title\": \"Great property!\",\n  \"content\": \"This is an excellent property with great amenities.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Reviews",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Reviews"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Review",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rating\": 4,\n  \"title\": \"Good property\",\n  \"content\": \"Updated review content\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Reviews/{{review_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Reviews", "{{review_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Reviews/{{review_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Reviews", "{{review_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Review as Helpful",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Reviews/{{review_id}}/helpful",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Reviews", "{{review_id}}", "helpful"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Get Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Notifications?pageNumber=1&pageSize=20",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Notifications"],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Unread Count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Notifications/unread-count",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Notifications", "unread-count"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark as Read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Notifications/{{notification_id}}/read",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Notifications", "{{notification_id}}", "read"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark All as Read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Notifications/read-all",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Notifications", "read-all"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Notification",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/Notifications/{{notification_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "Notifications", "{{notification_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Saved Searches",
+			"item": [
+				{
+					"name": "Get Saved Searches",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/SavedSearches",
+							"host": ["{{base_url}}"],
+							"path": ["api", "SavedSearches"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Saved Search by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/SavedSearches/{{search_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "SavedSearches", "{{search_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Saved Search",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"My Search\",\n  \"searchCriteria\": \"{\\\"propertyType\\\":\\\"House\\\",\\\"minPrice\\\":100000,\\\"maxPrice\\\":500000}\",\n  \"isActive\": true,\n  \"emailNotificationEnabled\": true,\n  \"notificationFrequency\": \"Daily\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/SavedSearches",
+							"host": ["{{base_url}}"],
+							"path": ["api", "SavedSearches"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Saved Search",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Search\",\n  \"searchCriteria\": \"{\\\"propertyType\\\":\\\"Apartment\\\",\\\"minPrice\\\":200000,\\\"maxPrice\\\":600000}\",\n  \"isActive\": true,\n  \"emailNotificationEnabled\": false,\n  \"notificationFrequency\": \"Weekly\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/SavedSearches/{{search_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "SavedSearches", "{{search_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Saved Search",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/SavedSearches/{{search_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "SavedSearches", "{{search_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contact",
+			"item": [
+				{
+					"name": "Submit Contact Request",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+84123456789\",\n  \"subject\": \"Inquiry about property\",\n  \"message\": \"I would like more information about this property\",\n  \"requestType\": \"General\",\n  \"listingId\": \"{{listing_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Contact",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Contact"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Contact Requests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Contact/my-requests",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Contact", "my-requests"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contact Request by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Contact/{{contact_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "Contact", "{{contact_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Users?pageNumber=1&pageSize=20&search=&role=&isVerified=",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Users"],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								},
+								{
+									"key": "search",
+									"value": ""
+								},
+								{
+									"key": "role",
+									"value": ""
+								},
+								{
+									"key": "isVerified",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Users/{{user_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Users", "{{user_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lock User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Users/{{user_id}}/lock",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Users", "{{user_id}}", "lock"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unlock User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Users/{{user_id}}/unlock",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Users", "{{user_id}}", "unlock"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Roles",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  \"User\",\n  \"Moderator\"\n]"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/Users/{{user_id}}/roles",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Users", "{{user_id}}", "roles"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - Listings",
+			"item": [
+				{
+					"name": "Get All Listings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Listings?pageNumber=1&pageSize=20&status=",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Listings"],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pending Listings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Listings/pending?pageNumber=1&pageSize=20",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Listings", "pending"],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve Listing",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Listings/{{listing_id}}/approve",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Listings", "{{listing_id}}", "approve"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Listing",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"Inappropriate content\""
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/Listings/{{listing_id}}/reject",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Listings", "{{listing_id}}", "reject"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Feature Listing",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "true"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/Listings/{{listing_id}}/feature",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Listings", "{{listing_id}}", "feature"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - Dashboard",
+			"item": [
+				{
+					"name": "Get Dashboard Stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Dashboard/stats",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Dashboard", "stats"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Monthly Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Dashboard/monthly-data?months=12",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Dashboard", "monthly-data"],
+							"query": [
+								{
+									"key": "months",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Popular Locations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Dashboard/popular-locations?top=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Dashboard", "popular-locations"],
+							"query": [
+								{
+									"key": "top",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Top Listings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Dashboard/top-listings?top=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Dashboard", "top-listings"],
+							"query": [
+								{
+									"key": "top",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - Contact",
+			"item": [
+				{
+					"name": "Get All Contact Requests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Contact/requests?pageNumber=1&pageSize=20&requestType=&isResponded=",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Contact", "requests"],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								},
+								{
+									"key": "requestType",
+									"value": ""
+								},
+								{
+									"key": "isResponded",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contact Request by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Contact/requests/{{contact_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Contact", "requests", "{{contact_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Respond to Contact Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"response\": \"Thank you for your inquiry. We will get back to you shortly.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/Contact/requests/{{contact_id}}/respond",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Contact", "requests", "{{contact_id}}", "respond"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Contact as Read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Contact/requests/{{contact_id}}/read",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Contact", "requests", "{{contact_id}}", "read"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - Reviews",
+			"item": [
+				{
+					"name": "Get All Reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Reviews?pageNumber=1&pageSize=20&isApproved=",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Reviews"],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								},
+								{
+									"key": "isApproved",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve Review",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Reviews/{{review_id}}/approve",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Reviews", "{{review_id}}", "approve"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Review",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"Contains inappropriate content\""
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/Reviews/{{review_id}}/reject",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Reviews", "{{review_id}}", "reject"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Respond to Review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"Thank you for your feedback\""
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/Reviews/{{review_id}}/respond",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Reviews", "{{review_id}}", "respond"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Reviews/{{review_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Reviews", "{{review_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - Banners",
+			"item": [
+				{
+					"name": "Get All Banners",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Banners?position=&isActive=",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Banners"],
+							"query": [
+								{
+									"key": "position",
+									"value": ""
+								},
+								{
+									"key": "isActive",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Banner by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Banners/{{banner_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Banners", "{{banner_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Banner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Summer Sale\",\n  \"imageUrl\": \"https://example.com/banner.jpg\",\n  \"linkUrl\": \"https://example.com/sale\",\n  \"position\": \"Home-Top\",\n  \"displayOrder\": 1,\n  \"isActive\": true,\n  \"startDate\": \"2025-11-21T00:00:00Z\",\n  \"endDate\": \"2025-12-31T23:59:59Z\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/Banners",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Banners"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Banner",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated Banner\",\n  \"imageUrl\": \"https://example.com/banner-updated.jpg\",\n  \"linkUrl\": \"https://example.com/updated\",\n  \"position\": \"Home-Top\",\n  \"displayOrder\": 1,\n  \"isActive\": true,\n  \"startDate\": \"2025-11-21T00:00:00Z\",\n  \"endDate\": \"2025-12-31T23:59:59Z\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/Banners/{{banner_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Banners", "{{banner_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Banner",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/Banners/{{banner_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "Banners", "{{banner_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - FAQs",
+			"item": [
+				{
+					"name": "Get All FAQs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/FAQs?category=&isPublished=",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "FAQs"],
+							"query": [
+								{
+									"key": "category",
+									"value": ""
+								},
+								{
+									"key": "isPublished",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get FAQ by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/FAQs/{{faq_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "FAQs", "{{faq_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create FAQ",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"question\": \"How do I list a property?\",\n  \"answer\": \"You can list a property by clicking on the 'Add Listing' button after logging in.\",\n  \"category\": \"General\",\n  \"displayOrder\": 1,\n  \"isPublished\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/FAQs",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "FAQs"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update FAQ",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"question\": \"How do I list a property? (Updated)\",\n  \"answer\": \"Updated answer: You can list a property by clicking on the 'Add Listing' button after logging in.\",\n  \"category\": \"General\",\n  \"displayOrder\": 1,\n  \"isPublished\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/FAQs/{{faq_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "FAQs", "{{faq_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete FAQ",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/FAQs/{{faq_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "FAQs", "{{faq_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - System Config",
+			"item": [
+				{
+					"name": "Get All Configs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/SystemConfig",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "SystemConfig"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Config by Key",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/SystemConfig/{{config_key}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "SystemConfig", "{{config_key}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Config",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"key\": \"MaxUploadSize\",\n  \"value\": \"10485760\",\n  \"description\": \"Maximum file upload size in bytes\",\n  \"dataType\": \"Integer\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/SystemConfig",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "SystemConfig"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Config",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\": \"20971520\",\n  \"description\": \"Maximum file upload size in bytes (updated)\",\n  \"dataType\": \"Integer\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/SystemConfig/{{config_key}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "SystemConfig", "{{config_key}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Config",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/admin/SystemConfig/{{config_key}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "admin", "SystemConfig", "{{config_key}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health & Monitoring",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": ["{{base_url}}"],
+							"path": ["health"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check - Ready",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health/ready",
+							"host": ["{{base_url}}"],
+							"path": ["health", "ready"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check - Live",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health/live",
+							"host": ["{{base_url}}"],
+							"path": ["health", "live"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prometheus Metrics",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/metrics",
+							"host": ["{{base_url}}"],
+							"path": ["metrics"]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
